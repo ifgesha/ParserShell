@@ -1,8 +1,6 @@
 package rdf.parser.shell;
 
-/**
- * Created by Женя on 07.01.2016.
- */
+
 public class Log {
 
 

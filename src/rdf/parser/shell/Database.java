@@ -1,6 +1,4 @@
-package rdf.parser.shell; /**
- * Created by Женя on 10.01.2016.
- */
+package rdf.parser.shell;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -24,7 +22,7 @@ public class Database {
 
 
     public Connection openConnection() {
-        log.info("Establishing source (relational) connection. URL" + properties.getProperty("db.url"));
+        log.info("Establishing source (relational) connection. URL = " + properties.getProperty("db.url"));
         if (connection == null) {
             try {
                 String driver = properties.getProperty("db.driver");
@@ -39,6 +37,7 @@ public class Database {
                 log.info("Established source (relational) connection.");
                 return connection;
             } catch (Exception e) {
+                log.error(e.toString());
                 log.error("Error establishing source (relational) connection! Please check your connection settings.");
                 //System.exit(1);
             }
@@ -50,7 +49,7 @@ public class Database {
 
 
 
-    public ResultSet query(String query) {
+    public  ResultSet  query(String query) {
         ResultSet result = null;
 
         try {

@@ -2,6 +2,7 @@ package rdf.parser.shell;
 
 import org.apache.commons.lang.StringUtils;
 
+
 import java.io.*;
 import java.util.Properties;
 
@@ -12,7 +13,7 @@ public class Main {
     private static Log log = new Log();
     private static MainForm form = new MainForm();
 
-    public static String ParserPath = "parser\\r2rml-parser-0.7-alpha\\";
+    public static String ParserPath = "C:\\rdf\\r2rml-parser-0.7-alpha\\";
 
 
 
@@ -23,9 +24,8 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
-        System.out.println(System.getProperty("user.dir"));
 
-                LoadProperty(ParserPath);
+        LoadProperty(ParserPath);
 
         db.setProperties(properties);
         //db.openConnection();
@@ -92,7 +92,6 @@ public class Main {
             if (StringUtils.isNotEmpty(propertiesFile)) {
                 properties.load(new FileInputStream(propertiesFile));
                 log.info("Loaded properties from " + propertiesFile);
-                updateItems(form);
             }
         } catch (FileNotFoundException e) {
             log.error("Properties file not found (" + propertiesFile + ").");
@@ -101,7 +100,8 @@ public class Main {
             log.error("Error reading properties file (" + propertiesFile + ").");
             //System.exit(1);
         }
-
+        //properties.list(System.out);
+        updateItems(form);
     }
 
     // Обновить значения в полях формы
