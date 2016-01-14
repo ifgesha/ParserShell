@@ -1,0 +1,86 @@
+
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ex: <http://example.com/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://example.com/base/> .
+
+
+
+<#TriplesMap6>
+	a rr:TriplesMap;
+	rr:logicalTable [ rr:tableName  "\"wp_posts\"" ];
+	rr:subjectMap [
+		rr:template "http://data.example.com/wp_posts/{\"ID\"}";
+		rr:class <http://example.com/ontology/wp_posts>;
+		rr:graph <http://example.com/graph/wp_posts> ;
+	];
+
+#	rr:predicateObjectMap [
+#		rr:predicate ex:ID;
+#		rr:objectMap [ rr:column "ID" ];
+#	];
+#
+#	rr:predicateObjectMap [
+#		rr:predicate ex:post_author;
+#		rr:objectMap [ rr:column "post_author" ];
+#	];
+#
+#	rr:predicateObjectMap [
+#		rr:predicate ex:post_date;
+#		rr:objectMap [ rr:column "post_date" ];
+#	];
+#
+#	rr:predicateObjectMap [
+#		rr:predicate ex:post_date_gmt;
+#		rr:objectMap [ rr:column "post_date_gmt" ];
+#	];
+#
+#	rr:predicateObjectMap [
+#		rr:predicate ex:post_content;
+#		rr:objectMap [ rr:column "post_content" ];
+#	];
+
+	rr:predicateObjectMap [
+		rr:predicate ex:post_title;
+		rr:objectMap [ rr:column "post_title" ];
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate ex:post_excerpt;
+		rr:objectMap [ rr:column "post_excerpt" ];
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate ex:post_status;
+		rr:objectMap [ rr:column "post_status" ];
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate ex:comment_status;
+		rr:objectMap [ rr:column "comment_status" ];
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate ex:ping_status;
+		rr:objectMap [ rr:column "ping_status" ];
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate ex:post_password;
+		rr:objectMap [ rr:column "post_password" ];
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate ex:post_name;
+		rr:objectMap [ rr:column "post_name" ];
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate ex:to_ping;
+		rr:objectMap [ rr:column "to_ping" ];
+	];
+
+
+	.
