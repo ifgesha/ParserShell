@@ -12,7 +12,7 @@ public class MapGenerator {
     private static Log log = new Log();
 
 
-    public void getShema(){
+    public String getShema(){
 
         String out = "";
         int t = 0;
@@ -44,11 +44,12 @@ public class MapGenerator {
 
         }catch(SQLException sqlEx) {
             sqlEx.printStackTrace();
+            return sqlEx.toString();
         }
 
-        log.info(out);
+        //log.info(out);
 
-
+        return out;
     }
 
 
@@ -60,12 +61,13 @@ public class MapGenerator {
         String pkey = "";
 
         Pattern pItem = Pattern.compile("  `(.+)` .+");
-        Pattern pK = Pattern.compile("PRIMARY KEY \\(`(.+)`\\),");
+        Pattern pK = Pattern.compile("PRIMARY KEY \\(`(.+)`\\)");
+
 
         String[] lines = tCreate.split("\\r?\\n");
         for (String str: lines) {
             Matcher m = pItem.matcher(str);
-            if( m.matches()){
+            if( m.find()){
                 resTriplet +="\n";
                 resTriplet +="	rr:predicateObjectMap [\n";
                 resTriplet +="		rr:predicate ex:\""+m.group(1)+"\";\n";
@@ -74,7 +76,7 @@ public class MapGenerator {
             }
 
             Matcher k = pK.matcher(str);
-            if( k.matches()) {
+            if( k.find()) {
                 pkey = k.group(1);
             }
 

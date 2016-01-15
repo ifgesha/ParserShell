@@ -75,11 +75,15 @@ public class Main {
     public static void CreateMapFile(){
         MapGenerator mg = new MapGenerator();
         mg.setDb(db);
-        mg.getShema();
+        String tripletMap =  mg.getShema();
+        form.textPane1.setText(tripletMap);
     }
 
 
+    public static void ParceDB(){
 
+        form.textPane1.setText("");
+    }
 
 
 
@@ -158,7 +162,7 @@ public class Main {
             properties.setProperty("db.driver",             form.dbDriver.getText());
             properties.setProperty("db.url",                form.dbUrl.getText());
             properties.setProperty("db.login",              form.dbLogin.getText());
-            properties.setProperty("db.password",           form.dbPassword.getPassword().toString());
+            properties.setProperty("db.password",           form.dbPassword.getText());
             properties.setProperty("jena.storeOutputModelUsingTdb", Boolean.toString(form.jenaStoreOutputModelUsingTdb.isSelected()));
             properties.setProperty("jena.cleanTdbOnStartup",        Boolean.toString(form.jenaCleanTdbOnStartup.isSelected()));
             properties.setProperty("db.jena.tdb.directory",         form.jenaTdbDirectory.getText());

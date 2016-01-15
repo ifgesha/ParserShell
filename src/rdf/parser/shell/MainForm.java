@@ -38,6 +38,9 @@ public class MainForm extends JFrame{
     public JTextField jenaDestinationFileName;
     private JButton saveProperty;
     private JButton DBTestConnectButton;
+    public JTextPane textPane1;
+    public JScrollPane LogPanel;
+    private JButton parseDBButton;
 
 
     public MainForm(){
@@ -65,12 +68,9 @@ public class MainForm extends JFrame{
             public void actionPerformed(ActionEvent e)
             {
                 System.out.println("click saveProperty");
-
                Main.saveProperty(Main.ParserPath);
-
             }
         });
-
 
 
 
@@ -80,13 +80,18 @@ public class MainForm extends JFrame{
             public void actionPerformed(ActionEvent e)
             {
                 System.out.println("click DBTestConnectButton");
-
-
                 Main.CreateMapFile();
-
             }
         });
 
+        parseDBButton.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                System.out.println("click ParseDB");
+                Main.ParceDB();
+            }
+        });
 
     }
 
