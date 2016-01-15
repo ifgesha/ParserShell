@@ -13,7 +13,7 @@ public class Main {
     private static Log log = new Log();
     private static MainForm form = new MainForm();
 
-    public static String ParserPath = "C:\\rdf\\r2rml-parser-0.7-alpha\\";
+    public static String ParserPath = "parser\\";
 
 
 
