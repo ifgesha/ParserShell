@@ -23,7 +23,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        //System.out.println("Hello World!");
 
         LoadProperty(ParserPath);
 
@@ -38,16 +38,12 @@ public class Main {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }*/
-        //  java -Xms128m -Xmx1024m -cp "./*;./lib/*;" gr.seab.r2rml.beans.Main
-        /*
-        try {
-            runProcess("java Main");
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+        */
+        //  java -Xms128m -Xmx1024m -cp "./*;./lib/*;" gr.seab.r2rml.beans.Main
 
-*/
+
+
 
     }
 
@@ -77,12 +73,31 @@ public class Main {
         mg.setDb(db);
         String tripletMap =  mg.getShema();
         form.textPane1.setText(tripletMap);
+
+        // Записать в файл
+        String file =  ParserPath + properties.getProperty("mapping.file");
+        log.info("Write triplet to file " + file);
+
+        try {
+            PrintWriter writer = new PrintWriter(file, "UTF-8");
+            writer.println(tripletMap);
+            writer.close();
+        } catch (IOException ex) {
+            log.error("Error write map file (" + file + ")." + ex.toString());
+        }
     }
 
 
     public static void ParceDB(){
 
-        form.textPane1.setText("");
+        form.textPane1.setText("runProcess");
+
+        try {
+            runProcess("java -Xms128m -Xmx1024m -cp \"./*;./lib/*;\" "+ParserPath+"gr.seab.r2rml.beans.Main ");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 

@@ -95,14 +95,22 @@ public class MapGenerator {
         resultTriplet +="	.\n\n";
 
 
+        resultTriplet = getHeadMap() + resultTriplet;
 
         return resultTriplet;
     }
 
 
+    private static String getHeadMap () {
+        String head = "@prefix rr: <http://www.w3.org/ns/r2rml#> .\n" +
+                "@prefix foaf: <http://xmlns.com/foaf/0.1/> .\n" +
+                "@prefix ex: <http://example.com/> .\n" +
+                "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n" +
+                "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n" +
+                "@base <http://example.com/base/> .\n";
 
-
-
+        return head;
+    }
 
 
 
