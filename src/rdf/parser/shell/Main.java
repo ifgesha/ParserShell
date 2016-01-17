@@ -17,7 +17,6 @@ public class Main {
     private static String sDirSeparator = System.getProperty("file.separator");
     private static File currentDir = new File("."); // определяем текущий каталог
 
-    public static String currentDirPath;
     public static String ParserPath = "parser";
     public static String propertiesFile = "r2rml.properties";
 
