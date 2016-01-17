@@ -13,9 +13,13 @@ public class Main {
     private static Log log = new Log();
     private static MainForm form = new MainForm();
 
-    public static String ParserPath = "parser\\";
 
+    private static String sDirSeparator = System.getProperty("file.separator");
+    private static File currentDir = new File("."); // определяем текущий каталог
 
+    public static String currentDirPath;
+    public static String ParserPath = "parser";
+    public static String propertiesFile = "r2rml.properties";
 
     public static Database db = new Database();
 
@@ -23,90 +27,57 @@ public class Main {
 
 
     public static void main(String[] args) {
-        //System.out.println("Hello World!");
+        log.setOutTextarea(form.textPane1);
 
-        LoadProperty(ParserPath);
-
-        db.setProperties(properties);
-        //db.openConnection();
-
-
-/*
+        // определяем полный путь парсеру и файлу свойств
         try {
-            main1("C:\\rdf\\r2rml-parser-0.7-alpha\\");
-        } catch (ConfigurationException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
+            ParserPath = currentDir.getCanonicalPath() + sDirSeparator + ParserPath + sDirSeparator;
+            propertiesFile = ParserPath + propertiesFile;
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        */
-        //  java -Xms128m -Xmx1024m -cp "./*;./lib/*;" gr.seab.r2rml.beans.Main
 
 
+        LoadProperty(propertiesFile);
+        db.setProperties(properties);
+        db.setLog(log);
 
 
     }
-
-/*
-
-    public static void main1(String path) throws ConfigurationException, FileNotFoundException {
-        String propertiesFile = path + "r2rml.properties";
-        File propsFile = new File(propertiesFile);
-
-        PropertiesConfiguration config = new PropertiesConfiguration();
-        PropertiesConfigurationLayout layout = new PropertiesConfigurationLayout(config);
-        layout.load(new InputStreamReader(new FileInputStream(propsFile)));
-
-        config.setProperty("test", "testValue");
-
-        Writer writer = new OutputStreamWriter(new FileOutputStream(propertiesFile));
-
-        layout.save(writer);
-    }
-
-*/
 
 
 
     public static void CreateMapFile(){
         MapGenerator mg = new MapGenerator();
         mg.setDb(db);
+        mg.setLog(log);
         String tripletMap =  mg.getShema();
-        form.textPane1.setText(tripletMap);
+        if(tripletMap != null) {
+            //form.textPane1.setText(tripletMap);
+            // Записать в файл
+            String file =  ParserPath + properties.getProperty("mapping.file");
+            log.info("Write triplet to file " + file);
 
-        // Записать в файл
-        String file =  ParserPath + properties.getProperty("mapping.file");
-        log.info("Write triplet to file " + file);
-
-        try {
-            PrintWriter writer = new PrintWriter(file, "UTF-8");
-            writer.println(tripletMap);
-            writer.close();
-        } catch (IOException ex) {
-            log.error("Error write map file (" + file + ")." + ex.toString());
+            try {
+                PrintWriter writer = new PrintWriter(file, "UTF-8");
+                writer.println(tripletMap);
+                writer.close();
+            } catch (IOException ex) {
+                log.error("Error write map file (" + file + ")." + ex.toString());
+            }
         }
     }
 
 
-    public static void ParceDB(){
 
-        form.textPane1.setText("runProcess");
-
-        try {
-            runProcess("java -Xms128m -Xmx1024m -cp \"./*;./lib/*;\" "+ParserPath+"gr.seab.r2rml.beans.Main ");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
 
 
 
 
 
     // Вычитать properties для парсера из файла
-    public static void LoadProperty(String path) {
-        String propertiesFile = path + "r2rml.properties";
+    public static void LoadProperty(String propertiesFile) {
+       // String propertiesFile = path + "r2rml.properties";
         try {
             if (StringUtils.isNotEmpty(propertiesFile)) {
                 properties.load(new FileInputStream(propertiesFile));
@@ -162,8 +133,8 @@ public class Main {
 
 
     // Сохранить изменения в файле .propertys
-    public static void saveProperty(String path) {
-        String propertiesFile = path + "r2rml.properties";
+    public static void saveProperty(String propertiesFile) {
+        //String propertiesFile = path + "r2rml.properties";
         try {
 
             properties.setProperty("mapping.file",          form.mappingFile.getText());
@@ -194,6 +165,25 @@ public class Main {
 
         db.setProperties(properties);
     }
+
+
+    public static void ParceDB(){
+
+        String cmd = "java -Xms128m -Xmx1024m -cp \""+ParserPath+"*;"+ParserPath+"lib\\*;\" gr.seab.r2rml.beans.Main -p "+propertiesFile;
+        log.info("runProcess " + cmd);
+
+        // -Xms128m -Xmx1024m размеры выделяемой памяти (max / min)
+        // -cp class path путь к библиотекам для данного приложения
+
+        try {
+            runProcess(cmd);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error(e.toString());
+        }
+
+    }
+
 
 
     // запустить в консоле

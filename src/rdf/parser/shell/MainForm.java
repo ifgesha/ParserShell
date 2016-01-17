@@ -68,7 +68,7 @@ public class MainForm extends JFrame{
             public void actionPerformed(ActionEvent e)
             {
                 System.out.println("click saveProperty");
-               Main.saveProperty(Main.ParserPath);
+               Main.saveProperty(Main.propertiesFile);
             }
         });
 

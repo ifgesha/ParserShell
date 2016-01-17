@@ -13,7 +13,7 @@ import java.util.Properties;
 
 public class Database {
 
-    private static Log log = new Log();
+    private static Log log;
 
 
     private Connection connection;
@@ -90,7 +90,9 @@ public class Database {
 
 
 
-
+    public void setLog(Log log) {
+        this.log = log;
+    }
 
 
 

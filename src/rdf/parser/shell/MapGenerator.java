@@ -9,45 +9,40 @@ import java.util.regex.*;
 public class MapGenerator {
 
     private Database db;
-    private static Log log = new Log();
+    private static Log log;
 
 
     public String getShema(){
 
-        String out = "";
+        String out = null;
         int t = 0;
 
-        db.openConnection();
+        if(db.openConnection() != null) {
+            try {
+                ResultSet rsTable = db.query("SHOW TABLES"); // Получить список таблиц
+                while (rsTable.next()) {
+                    String tName = rsTable.getString(1);
 
-        try{
-            ResultSet rsTable = db.query("SHOW TABLES"); // Получить список таблиц
-            while (rsTable.next()) {
-                String tName = rsTable.getString(1);
+                    log.info("Process table " + tName);
 
-                log.info("Process table " + tName);
+                    // Получить строение таблици
+                    ResultSet rsTableCrata = db.query(" SHOW CREATE TABLE `" + tName + "`");
+                    while (rsTableCrata.next()) {
+                        t++;
+                        String tCreate = rsTableCrata.getString(2);
+                        //log.info(" SHOW CREATE TABLE " + tCreate);
 
+                        out += getTriplet(t, tName, tCreate);
 
-                // Получить строение таблици
-                ResultSet rsTableCrata = db.query(" SHOW CREATE TABLE `"+tName+"`");
-                while (rsTableCrata.next()) {
-                    t++;
-                    String tCreate = rsTableCrata.getString(2);
-                    //log.info(" SHOW CREATE TABLE " + tCreate);
-
-                    out += getTriplet(t, tName, tCreate);
-
+                    }
                 }
 
-
+            } catch (SQLException sqlEx) {
+                sqlEx.printStackTrace();
+                return sqlEx.toString();
             }
 
-
-        }catch(SQLException sqlEx) {
-            sqlEx.printStackTrace();
-            return sqlEx.toString();
         }
-
-        //log.info(out);
 
         return out;
     }
@@ -116,5 +111,9 @@ public class MapGenerator {
 
     public void setDb(Database db) {
         this.db = db;
+    }
+
+    public void setLog(Log log) {
+        this.log = log;
     }
 }
